@@ -5,16 +5,22 @@ public class PalindromeCheckerApp {
         System.out.println("Version : 1.0");
 
         String input = "madam";
-        boolean isPalindrome = true;
+        String reversed = "";
 
-        for (int i = 0; i < input.length() / 2; i++) {
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
+        // Iterate from the last character to the first
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reversed += input.charAt(i); // String Concatenation
         }
 
-        System.out.println("Input text: " + input);
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+        // Compare original and reversed using equals()
+        if (input.equals(reversed)) {
+            System.out.println("Input text: " + input);
+            System.out.println("Reversed text: " + reversed);
+            System.out.println("Is it a Palindrome? : true");
+        } else {
+            System.out.println("Input text: " + input);
+            System.out.println("Reversed text: " + reversed);
+            System.out.println("Is it a Palindrome? : false");
+        }
     }
 }
