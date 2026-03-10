@@ -1,19 +1,55 @@
-public class UseCase10PalindromeCheckerApp {
+import java.util.Stack;
+import java.util.Scanner;
+
+public class UseCase12PalindromeCheckerApp {
+    private PalindromeStrategy strategy;
+
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean validate(String input) {
+        if (strategy == null) {
+            throw new IllegalStateException("Strategy not set!");
+        }
+        return strategy.check(input);
+    }
 
     public static void main(String[] args) {
-        String input = "A man a plan a canal Panama";
+        UseCase12PalindromeCheckerApp app = new UseCase12PalindromeCheckerApp();
+        Scanner scanner = new Scanner(System.in);
 
-        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        app.setStrategy(new StackStrategy());
 
-        boolean isPalindrome = true;
-        for (int i = 0; i < normalized.length() / 2; i++) {
-            if (normalized.charAt(i) != normalized.charAt(normalized.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
+        System.out.print("Input : ");
+        String input = scanner.nextLine();
+
+        boolean isPalindrome = app.validate(input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
+
+        scanner.close();
+    }
+}
+
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+class StackStrategy implements PalindromeStrategy {
+
+    @Override
+    public boolean check(String input) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : input.toCharArray()) {
+            stack.push(c);
         }
 
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
